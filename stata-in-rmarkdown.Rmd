@@ -1,0 +1,40 @@
+---
+title: "Run Stata in Rmarkdown"
+subtitle: ""
+author: "Ihsan Fadilah"
+institute: ""
+date: "Last updated on `r Sys.Date()`"
+output:
+  xaringan::moon_reader:
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+    css: [metropolis-fonts]
+---
+
+# Setup
+
+```{r setup, warning = FALSE, message = FALSE}
+# Packages
+library(Statamarkdown)
+library(knitr)
+
+# Path to the executable Stata
+# Type `sysdir` in Stata and add the executable Stata file
+statapath <- "/Applications/Stata/StataIC.app"
+
+# Stata engine
+
+```
+
+
+
+
+
+
+
+
+
+
