@@ -1,5 +1,5 @@
 ---
-title: "Run Stata in Rmarkdown"
+title: "Stata with Rmarkdown"
 subtitle: ""
 author: "Ihsan Fadilah"
 institute: ""
