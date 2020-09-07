@@ -12,25 +12,121 @@ class: center, middle, inverse, title-slide
 
 # Run Stata in Rmarkdown
 ### Ihsan Fadilah
-### Last updated on 2020-09-06
+### Last updated on 2020-09-07
 
 ---
 
+class: middle, center
 
 # Setup
 
+---
+
+Familiarity with **Rmarkdown** is assumed. In order to run **Stata** directly from within **Rmarkdown**, you need to run the following code chunk. Note that this only works if you have **Stata** already installed in your own machine.
+
 
 ```r
-# Packages
+# Package
 library(Statamarkdown)
-library(knitr)
 
-# Path to the executable Stata
-# Type `sysdir` in Stata and add the executable Stata file
-statapath &lt;- "/Applications/Stata/StataIC.app"
+# Path to the executable Stata (machine-specific)
+statapath &lt;- "/Applications/Stata/StataIC.app/Contents/MacOS/StataIC"
 
-# Stata engine
+# Set the Stata engine
+knitr::opts_chunk$set(engine.path = list(stata = statapath))
 ```
+
+To find your own path to the executable **Stata**:
+
+1. Open **Stata**
+1. Type `sysdir` in the Stata command window
+1. The output that says `STATA:` indicates where the path is
+1. Put the additional argument as shown in the code chunk above
+
+I am using **StataIC** on a Mac, hence the path. Adjust the path accordingly since you may have a different version of **Stata** or operation system.
+
+After all that, executing **Stata** code in **Rmarkdown** would the same as if you worked in **R**. Except, you will specify the code chunk as follows.
+
+` ```{stata} // Your code //``` `
+
+---
+class: middle, center
+
+# Stata code with output
+
+---
+# Summarise data
+
+
+```stata
+sysuse auto, clear  // Read in the data
+summarize           // Summarise data
+```
+
+```
+    Variable |        Obs        Mean    Std. Dev.       Min        Max
+-------------+---------------------------------------------------------
+        make |          0
+       price |         74    6165.257    2949.496       3291      15906
+         mpg |         74     21.2973    5.785503         12         41
+       rep78 |         69    3.405797    .9899323          1          5
+    headroom |         74    2.993243    .8459948        1.5          5
+-------------+---------------------------------------------------------
+       trunk |         74    13.75676    4.277404          5         23
+      weight |         74    3019.459    777.1936       1760       4840
+      length |         74    187.9324    22.26634        142        233
+        turn |         74    39.64865    4.399354         31         51
+displacement |         74    197.2973    91.83722         79        425
+-------------+---------------------------------------------------------
+  gear_ratio |         74    3.014865    .4562871       2.19       3.89
+     foreign |         74    .2972973    .4601885          0          1
+```
+
+To carry over the results from this code (e.g. loaded dataset) in subsequent operations, we need to specify the code chunk as follows.
+
+` ```{stata, collectcode = TRUE} // Your code //``` `
+
+---
+# Univariable linear regression
+
+
+```stata
+regress price mpg
+```
+
+```
+      Source |       SS           df       MS      Number of obs   =        74
+-------------+----------------------------------   F(1, 72)        =     20.26
+       Model |   139449474         1   139449474   Prob &gt; F        =    0.0000
+    Residual |   495615923        72  6883554.48   R-squared       =    0.2196
+-------------+----------------------------------   Adj R-squared   =    0.2087
+       Total |   635065396        73  8699525.97   Root MSE        =    2623.7
+
+------------------------------------------------------------------------------
+       price |      Coef.   Std. Err.      t    P&gt;|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+         mpg |  -238.8943   53.07669    -4.50   0.000    -344.7008   -133.0879
+       _cons |   11253.06   1170.813     9.61   0.000     8919.088    13587.03
+------------------------------------------------------------------------------
+```
+
+---
+# Plot
+
+
+```stata
+graph box mpg, over(foreign)
+graph export "boxplot.png", replace
+```
+
+---
+class: middle, center
+
+# Any questions?
+
+#### ihsan.fadilah@kcl.ac.uk
+
+#### Reference ~ [Stata and R Markdown: the Statamarkdown package](https://www.ssc.wisc.edu/~hemken/Stataworkshops/stata.html#stata-and-r-markdown)
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
