@@ -47,7 +47,7 @@ I am using **StataIC** on a Mac, hence the path. Adjust the path accordingly sin
 
 After all that, executing **Stata** code in **Rmarkdown** would the same as if you worked in **R**. Except, you will specify the code chunk as follows.
 
-` ```{stata} // Your code //``` `
+` ```{stata} Your code``` `
 
 ---
 class: middle, center
@@ -84,7 +84,7 @@ displacement |         74    197.2973    91.83722         79        425
 
 To carry over the results from this code (e.g. loaded dataset) in subsequent operations, we need to specify the code chunk as follows.
 
-` ```{stata, collectcode = TRUE} // Your code //``` `
+` ```{stata, collectcode = TRUE} Your code``` `
 
 ---
 # Univariable linear regression
@@ -115,9 +115,17 @@ regress price mpg
 
 
 ```stata
-graph box mpg, over(foreign)
-graph export "boxplot.png", replace
+graph box mpg, over(foreign) // Box plot
+
+// Save the plot to show as follows (not a direct output)
+graph export "boxplot.svg", replace
 ```
+
+&lt;p align="center"&gt;
+
+  &lt;img src = "boxplot.svg"&gt;
+
+&lt;/p&gt;
 
 ---
 class: middle, center
